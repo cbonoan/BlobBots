@@ -1,2 +1,2 @@
 # BlobBots
-Software Engineering group project for Sping 2020.
+Software Engineering group project for Spring 2020.
