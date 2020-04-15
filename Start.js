@@ -6,7 +6,6 @@ class Start extends Phaser.Scene {
     preload() {
         this.load.image("base", "assets/Level Designs/Base.png");
     }
-
     create() {
         this.scene.start("playLvl1")
     };
