@@ -78,15 +78,15 @@ var checker = true;
 var ostartime;
 function update ()
 {
-	var keyObj1 = this.input.keyboard.addKey('ONE');
-	var keyObj2 = this.input.keyboard.addKey('TWO');
-	var keyObj3 = this.input.keyboard.addKey('THREE');
-	var keyObj4 = this.input.keyboard.addKey('FOUR');
-	var keyObj5 = this.input.keyboard.addKey('FIVE');
-	var keyObj6 = this.input.keyboard.addKey('SIX');
-	var keyObj7 = this.input.keyboard.addKey('SEVEN');
-	var keyObj8 = this.input.keyboard.addKey('EIGHT');
-	var keyObj9 = this.input.keyboard.addKey('NINE');
+	var keyObj1 = this.input.keyboard.addKey('NUMPAD_SEVEN');
+	var keyObj2 = this.input.keyboard.addKey('NUMPAD_EIGHT');
+	var keyObj3 = this.input.keyboard.addKey('NUMPAD_NINE');
+	var keyObj4 = this.input.keyboard.addKey('NUMPAD_FOUR');
+	var keyObj5 = this.input.keyboard.addKey('NUMPAD_FIVE');
+	var keyObj6 = this.input.keyboard.addKey('NUMPAD_SIX');
+	var keyObj7 = this.input.keyboard.addKey('NUMPAD_ONE');
+	var keyObj8 = this.input.keyboard.addKey('NUMPAD_TWO');
+	var keyObj9 = this.input.keyboard.addKey('NUMPAD_THREE');
 	//console.log(Math.floor((Math.random() * 9) + 1));
 	//check if 5 seconds have passed if so then spawn a monster! (update startime in here to current time if u get in here)
     if(startime + 5 == Math.floor(performance.now()/1000) && checker)
@@ -156,7 +156,7 @@ function update ()
 	{
 		checker = true;
 	}
-	if(keyObj1.isDown && check_enemy[0])
+	if(keyObj1.isDown)
 	 {
 		 console.log(1);
 		 check_enemy[0] = false;		
