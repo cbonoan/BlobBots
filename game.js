@@ -1,21 +1,11 @@
-const game = new Phaser.Game(800,600, Phaser.AUTO, '', {
- preload: preload,
- create: create,
- update, update
-})
+window.onload = function() {
 
+    var config = {
+        width: 1968, 
+        height: 1184, 
+        backgroundColor: 0x000000,
+        scene: [Start, Lvl1]
+    }
 
-function preload() {
-    game.load.image('sky', 'assets/sky.png');
-   // game.load.image('ground', 'assets/platform.png')
-    game.load.image('diamond', 'assets/diamond.png');
-    game.load.spritesheet('woof', 'assets/woof.png', 32, 32);
+    var game = new Phaser.Game(config);
 }
-function create() {
-    game.physics.startSystem(Phaser.Physics.ARCADE)
-
-    game.add.sprite(0, 0, 'sky')
-    
-
-}
-function update() {}
