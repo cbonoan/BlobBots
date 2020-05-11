@@ -150,7 +150,7 @@ class Start extends Phaser.Scene {
             ],
             frameRate: 10,
             repeat: 0
-        })
+        });
 
         this.cameras.main.on('camerafadeoutcomplete',  function() {
             this.scene.start('bootGame')},

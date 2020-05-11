@@ -195,7 +195,7 @@ class Lvl1 extends Phaser.Scene {
     }
 
     enemyDown(enemy, tilePos) {
-        switch(tilePos) {
+        switch(tilePos+1) {
             case 1:
                 var x = (this.game.config.width/3)-45;
                 var y =  this.game.config.height-275;
@@ -239,11 +239,12 @@ class Lvl1 extends Phaser.Scene {
         enemy.destroy();
         score += 10;
 
-        var impact = this.add.sprite(x,y,'impact1');
+        if(enemy == null)
+            var impact = this.add.sprite(x,y,'impact1');
+
         impact.play('impactAnim');
         impact.destroy();
 
-        
     }
 
 }
