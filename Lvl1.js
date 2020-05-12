@@ -1,4 +1,3 @@
-var enemySpawnTime = 2500 //ms 
 var health = 5;
 var score = 0; 
 //Will keep track of how long an enemy has stayed on screen in ms
@@ -22,10 +21,11 @@ class Lvl1 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('level1', 'assets/leveldesign/lvl1Base.png');
     }
 
     create() {
+        this.config = this.game.config;
+
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
@@ -40,16 +40,12 @@ class Lvl1 extends Phaser.Scene {
             seek: 0,
             loop: false,
             delay: 0
-        })
+        });
 
         //To make sure audio keeps playing
         if (this.sound.context.state === 'suspended') {
             this.sound.context.resume();
         }
-
-        this.enemySpawnTime = 6000 //ms 
-
-        this.config = this.game.config;
 
         for(var keyValue = 97; keyValue < 106; keyValue++) {
             keyObjs.push(this.input.keyboard.addKey(keyValue));
@@ -74,7 +70,17 @@ class Lvl1 extends Phaser.Scene {
             delay: 0, 
             loop: true
         });
+        this.enemySpawnTime = 3500;
 
+        lvl1Music.on('complete', function() {
+            this.enemySpawnTime = 10000;
+            this.cameras.main.fade(1500);
+        }, this);
+
+        this.cameras.main.on('camerafadeoutcomplete',  function() {
+            this.scene.start('Level2', {level: 2, health: health, score: score});
+            this.scene.stop();
+        }, this);
         
     }
 
@@ -119,8 +125,7 @@ class Lvl1 extends Phaser.Scene {
 
         //After amount of seconds, speed up spawn time
         if(this.timer.getElapsed() > 5500 && this.enemySpawnTime > 1000) {
-            this.enemySpawnTime -= 500; 
-            console.log(this.enemySpawnTime)
+            this.enemySpawnTime -= 250; 
             this.timer.reset({
                 delay: 0,
                 loop: true
@@ -157,7 +162,7 @@ class Lvl1 extends Phaser.Scene {
             //console.log(gridFilled)
             //console.log(check_enemy)
             if(!gridFilled){
-                //console.log(this.enemySpawnTime)
+                //console.log(this.this.enemySpawnTime)
                 var enemyTile = Math.floor(Math.random()*9) + 1;
                 //Choose a tile that doesn't have an enemy on it 
                 while(check_enemy[enemyTile-1]) {

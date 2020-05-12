@@ -8,7 +8,7 @@ var text = ["WELCOME EARTHLING.\n\n[Press ENTER to Continue]",
 "For this simulation, your job is to simply get rid of all the enemies on screen. Remember to make sure NUM LOCK is on!",
 "...*STARTING SIMULATION*...",
 "Awesome work in there!",
-"Keep in mind that not all enemies are just going to stand there like that and are trained to harm you. BUT NO WORRIES.",
+"Keep in mind that not all enemies are just going to stand there like that and are trained to harm you if not destroyed right away. BUT NO WORRIES.",
 "OK, for the next part of the trai...",
 "Uh oh, this isn't good.. Looks like the enemy has breached our ship! No matter. What better way to practice than on real targets! Lucky you!",
 "Remember what I taught you and good luck!"];
@@ -162,7 +162,6 @@ class Tutorial extends Phaser.Scene{
         }
     }
     updateText(quote) {        
-
         if(this.i==0 || this.i%3==0) {
             var audioRate = Math.random()*2 + 1; 
             this.trainerVoice.play({

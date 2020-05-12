@@ -5,11 +5,19 @@ class Start extends Phaser.Scene {
     }
 
     preload() {
+        //Level designs 
+        this.load.image('level1', 'assets/leveldesign/lvl1Base.png');
+        this.load.image('level2', 'assets/leveldesign/lvl2Base.png');
+        this.load.image('level3', 'assets/leveldesign/lvl3Base.png');
+        this.load.image('level4', 'assets/leveldesign/lvl4Base.png');
+
+        //Sounds and music 
         this.load.audio('music', 'assets/soundEffects/sciFiMusic.mp3');
         this.load.audio('beam', 'assets/soundEffects/beam.mp3');
         this.load.audio('spawnSoundEffect', 'assets/soundEffects/spawn.mp3');
         this.load.audio('robotSoundEffect', 'assets/soundEffects/robotSpeaking.mp3');
         this.load.audio('lvl1Music', 'assets/soundEffects/lvl1Music.mp3')
+        this.load.audio('lvl2Music', 'assets/soundEffects/lvl2Music.mp3')
 
         this.load.spritesheet("startButton", 'assets/png/startBtn.png', {
             frameWidth: 64,
@@ -149,7 +157,7 @@ class Start extends Phaser.Scene {
                 {key: 'spawn2'}
             ],
             frameRate: 15,
-            repeat: 5
+            repeat: 3
         });
 
         //Animation for when enemy is shot at 
