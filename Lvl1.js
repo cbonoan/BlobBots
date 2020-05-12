@@ -16,6 +16,11 @@ class Lvl1 extends Phaser.Scene {
         super('Level1');
     }
 
+    //This will help keep track of data i.e. level user is on, score, and health 
+    init(data) {
+        this.level = data.level;
+    }
+
     preload() {
         this.load.image('level1', 'assets/leveldesign/lvl1Base.png');
     }
@@ -23,6 +28,8 @@ class Lvl1 extends Phaser.Scene {
     create() {
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
+
+        music.stop();
 
         var lvl1Music = this.sound.add('lvl1Music');
         lvl1Music.play({
@@ -110,8 +117,8 @@ class Lvl1 extends Phaser.Scene {
             });
         }
 
-        //After 10 seconds, speed up spawn time
-        if(this.timer.getElapsed() > 10000 && this.enemySpawnTime > 2000) {
+        //After amount of seconds, speed up spawn time
+        if(this.timer.getElapsed() > 5500 && this.enemySpawnTime > 1000) {
             this.enemySpawnTime -= 500; 
             console.log(this.enemySpawnTime)
             this.timer.reset({

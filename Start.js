@@ -19,6 +19,11 @@ class Start extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 32
         });
+        this.load.spritesheet("skipButton", 'assets/png/skipBtn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
+
 
         this.load.image('bg', 'assets/leveldesign/bg.png');
         this.load.image('bg2', 'assets/leveldesign/blackBackground.png');
@@ -62,7 +67,7 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        this.scene.start('Level1')
+        //this.scene.start('Level1')
         this.config = this.game.config;
         music = this.sound.add('music');
 
@@ -88,14 +93,21 @@ class Start extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('startButton'),
             frameRate: 10,
             repeat: 0
-        })
+        });
        
         this.anims.create({
             key: 'settingsBtn',
             frames: this.anims.generateFrameNumbers('settingsButton'),
             frameRate: 10,
             repeat: 0
-        })
+        });
+
+        this.anims.create({
+            key: 'skipBtn',
+            frames: this.anims.generateFrameNumbers('skipButton'),
+            frameRate: 2,
+            repeat: -1
+        });
 
         //Start Button
         this.startBtn = this.add.sprite(this.game.config.width/2, this.game.config.height/2.5, 'startButton').setScale(3);

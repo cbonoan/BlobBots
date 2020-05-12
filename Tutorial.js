@@ -34,6 +34,8 @@ class Tutorial extends Phaser.Scene{
     }
 
     create() {    
+        this.config = this.game.config;
+
         if (this.sound.context.state === 'suspended') {
             this.sound.context.resume();
         }
@@ -44,10 +46,9 @@ class Tutorial extends Phaser.Scene{
         this.timer = this.time.addEvent({
             loop: true
         });
-        this.config = this.game.config;
         var bmText = new Phaser.GameObjects.BitmapText(this, 0,0,'font');
         this.i = 0;
-        
+
         // Check if user is in fullscreen
         if(window.innerWidth < this.config.width/1.5 || window.innerHeight < this.config.height/1.5) {
             //alert("This game HIGHLY recommends you play on a fullscreen. Please enlarge your window to get the best experience!");
@@ -112,10 +113,24 @@ class Tutorial extends Phaser.Scene{
         this.speechX = this.game.config.width/3;
         this.speechY = this.game.config.height/24;     
         
+        //Skip tutorial button 
+        this.skipBtn = this.add.sprite(this.config.width - 350, this.config.height - 200, 'skipButton').setScale(3);
+        this.skipBtn.on('pointerover', function() {
+            this.skipBtn.play('skipBtn')}, 
+            this
+        )
+        this.skipBtn.on('pointerout', function() {
+            this.skipBtn.anims.pause()
+            this.skipBtn.setTexture('skipButton')}, 
+            this
+        )
+        this.skipBtn.setInteractive().on('pointerdown', function() {
+            this.cameras.main.fade(1000)},
+            this
+        );
         
         this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level1');
-            music.stop();
+            this.scene.start('Level1', {level: 1});
             this.scene.stop();
         }, this);
     }
