@@ -115,6 +115,7 @@ class Tutorial extends Phaser.Scene{
         
         this.cameras.main.on('camerafadeoutcomplete',  function() {
             this.scene.start('Level1');
+            music.stop();
             this.scene.stop();
         }, this);
     }

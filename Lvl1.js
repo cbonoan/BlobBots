@@ -4,7 +4,7 @@ var score = 0;
 //Will keep track of how long an enemy has stayed on screen in ms
 var enemyElapsed = [];
 for(var i =0; i<9; i++) {
-    enemyElapsed[i] = 0;
+    enemyElapsed[i] = null;
 }
 for(var i=0; i<9; i++) {
     enemies[i] = null; 
@@ -23,6 +23,17 @@ class Lvl1 extends Phaser.Scene {
     create() {
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
+
+        var lvl1Music = this.sound.add('lvl1Music');
+        lvl1Music.play({
+            mute: false,
+            volume: 0.2,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        })
 
         //To make sure audio keeps playing
         if (this.sound.context.state === 'suspended') {
@@ -57,31 +68,37 @@ class Lvl1 extends Phaser.Scene {
             loop: true
         });
 
-        //timer to check 
+        
     }
 
     update() {
         this.healthText.text = "HEALTH: " + health;
         this.scoreText.text = "SCORE: " + score
 
+        if(health < 0) {
+            health = 0; 
+        }
+
         for(var i = 0; i < keyObjs.length; i++) {
             if(Phaser.Input.Keyboard.JustDown(keyObjs[i])) {
                 if(check_enemy[i]) {
                     this.beamSound.play();
-                    var enemy = enemies[i]
-                    this.enemyDown(enemy, i)
+                    enemies[i].setVisible(false);
+                    enemies[i].destroyEnemy();
+                    //Passing in tile pos enemy was on 
                     enemies[i] = null;
                     check_enemy[i] = false;
+                    enemyElapsed[i] = null; 
+                    this.enemyDown(i+1)
                 } else if(!check_enemy[i]) {
                     health--;
                 }
             } 
         }
 
-
         if(this.spawnTime.getElapsed() > this.enemySpawnTime){
-            //Chance for at most 2 enemies to spawn
-            var spawnAmt = Math.floor(Math.random()*2) + 1;
+            //Chance for multiple enemies to spawn
+            var spawnAmt = Math.floor(Math.random()*3) + 1;
             var i = 0; 
             while(i < spawnAmt){
                 this.spawnEnemy();
@@ -104,13 +121,17 @@ class Lvl1 extends Phaser.Scene {
             //console.log(this.timer.getElapsed())
         }*/
 
-        /*for(var i=0; i<enemyElapsed.length; i++) {
-            if(enemyElapsed[i]+5000 == Math.floor(performance.now()) && enemyElapsed[i] > 0)  {
-                enemyElapsed[i] = 0;
-                enemies[i].destroy();
-                health--;  
+        //If an enemy is on screen for more than 3.5 secs, then take health and score away 
+        for(var i=0; i<enemyElapsed.length; i++) {
+            if(enemyElapsed[i] != null) {
+                if(enemyElapsed[i].getElapsed() > 3500) {
+                    enemies[i].destroy();
+                    score -= 5;
+                    health --; 
+                    enemyElapsed[i] = null; 
+                }
             }
-        }*/
+        }
     }    
 
     spawnEnemy() {
@@ -183,19 +204,25 @@ class Lvl1 extends Phaser.Scene {
                 spawnAnim.destroy();
                 var enemy = new Enemy(this, enemyTile, this.game.config.width, this.game.config.height, "enemy1",1);
                 enemies[enemyTile-1] = enemy;
+
+                enemyElapsed[enemyTile-1] = this.time.addEvent({
+                    delay: 0, 
+                    loop: true
+                });
+
                 check_enemy[enemyTile-1] = true;
             },  this);
             
-            enemyElapsed[enemyTile-1] = Math.floor(performance.now());  
-            console.log(enemyElapsed[enemyTile-1]);
+            //enemyElapsed[enemyTile-1] = Math.floor(performance.now());  
+            //console.log(enemyElapsed[enemyTile-1].getElapsed());
         } else {
             return;
         }
         
     }
 
-    enemyDown(enemy, tilePos) {
-        switch(tilePos+1) {
+    enemyDown(tilePos) {
+        switch(tilePos) {
             case 1:
                 var x = (this.game.config.width/3)-45;
                 var y =  this.game.config.height-275;
@@ -233,17 +260,14 @@ class Lvl1 extends Phaser.Scene {
                 var y =  this.game.config.height/3.5;
                 break;    
         }
-        
 
-        enemy.setVisible(false);
-        enemy.destroy();
+        var impact = this.add.sprite(x,y,'impact1');
+        impact.setScale(1.8);
+        impact.play('impactAnim')
+        impact.on('animationcomplete', function() {
+            impact.destroy();
+        }, this);
         score += 10;
-
-        if(enemy == null)
-            var impact = this.add.sprite(x,y,'impact1');
-
-        impact.play('impactAnim');
-        impact.destroy();
 
     }
 
