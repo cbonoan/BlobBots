@@ -62,7 +62,7 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        //this.scene.start('Level1')
+        this.scene.start('Level1')
         this.config = this.game.config;
         music = this.sound.add('music');
 
@@ -136,8 +136,8 @@ class Start extends Phaser.Scene {
                 {key: 'spawn1'},
                 {key: 'spawn2'}
             ],
-            frameRate: 12,
-            repeat: 7
+            frameRate: 15,
+            repeat: 5
         });
 
         //Animation for when enemy is shot at 
