@@ -1,4 +1,4 @@
-var enemySpawnTime = 2000 //ms 
+var enemySpawnTime = 2500 //ms 
 var health = 5;
 var score = 0; 
 //Will keep track of how long an enemy has stayed on screen in ms
@@ -83,7 +83,7 @@ class Lvl1 extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(keyObjs[i])) {
                 if(check_enemy[i]) {
                     this.beamSound.play();
-                    enemies[i].setVisible(false);
+                    enemies[i].setX(this.game.config.width+1000).setY(this.game.config.height+1000);
                     enemies[i].destroyEnemy();
                     //Passing in tile pos enemy was on 
                     enemies[i] = null;
@@ -96,129 +96,132 @@ class Lvl1 extends Phaser.Scene {
             } 
         }
 
-        if(this.spawnTime.getElapsed() > this.enemySpawnTime){
-            //Chance for multiple enemies to spawn
-            var spawnAmt = Math.floor(Math.random()*3) + 1;
-            var i = 0; 
-            while(i < spawnAmt){
-                this.spawnEnemy();
-                i++;
+        for(var i=0; i<enemies.length; i++) {
+            if(enemies[i] == null) {
+
             }
+        }
+
+        if(this.spawnTime.getElapsed() > this.enemySpawnTime){
+            this.spawnEnemy();
             this.spawnTime.reset({
                 delay: 0,
                 loop: true
             });
         }
 
-        //Speed up enemy spawn time every 10 secs 
-        /*if(this.timer.getElapsed() > 10000 && this.enemySpawnTime > 1000) {
-            this.enemySpawnTime -= 1000; 
+        //After 10 seconds, speed up spawn time
+        if(this.timer.getElapsed() > 10000 && this.enemySpawnTime > 2000) {
+            this.enemySpawnTime -= 500; 
             console.log(this.enemySpawnTime)
             this.timer.reset({
                 delay: 0,
                 loop: true
             });
             //console.log(this.timer.getElapsed())
-        }*/
+        }
 
         //If an enemy is on screen for more than 3.5 secs, then take health and score away 
         for(var i=0; i<enemyElapsed.length; i++) {
             if(enemyElapsed[i] != null) {
                 if(enemyElapsed[i].getElapsed() > 3500) {
-                    enemies[i].destroy();
+                    enemies[i].destroyEnemy();
                     score -= 5;
                     health --; 
                     enemyElapsed[i] = null; 
+                    enemies[i] = null;
+                    check_enemy[i] = false;
                 }
             }
         }
     }    
 
     spawnEnemy() {
-        //To make sure multiple enemies don't spawn in the same grid space
-        var gridFilled = true;
-        for(var i=0; i<check_enemy.length; i++) {
-            if(!check_enemy[i]) {
-                gridFilled = false
+        var i = 0;
+        var spawnAmt = Math.floor(Math.random()*3) + 1;
+        while(i<spawnAmt) {
+            //To make sure multiple enemies don't spawn in the same grid space
+            var gridFilled = true;
+            for(var i=0; i<check_enemy.length; i++) {
+                if(!check_enemy[i]) {
+                    gridFilled = false
+                }
             }
-        }
-        //console.log(gridFilled)
-        //console.log(check_enemy)
-        if(!gridFilled){
-            //console.log(this.enemySpawnTime)
-            var enemyTile = Math.floor(Math.random()*9) + 1;
-            //Choose a tile that doesn't have an enemy on it 
-            while(check_enemy[enemyTile-1]) {
-                enemyTile = Math.floor(Math.random()*9) + 1;
-            }
-            switch(enemyTile) {
-                case 1:
-                    var x = (this.game.config.width/3)-45;
-                    var y =  this.game.config.height-275;
-                    break;
-                case 2:
-                    var x = (this.game.config.width/2);
-                    var y =  this.game.config.height-275;
-                    break;
-                case 3:
-                    var x = (this.game.config.width-550);
-                    var y =  this.game.config.height-275;
-                    break;
-                case 4:
-                    var x = (this.game.config.width/3)-45;
-                    var y =  this.game.config.height/2;
-                    break;
-                case 5:
-                    var x = (this.game.config.width/2);
-                    var y =  this.game.config.height/2;
-                    break;
-                case 6:
-                    var x = (this.game.config.width-550);
-                    var y =  this.game.config.height/2;
-                    break;
-                case 7:
-                    var x = (this.game.config.width/3)-45;
-                    var y =  this.game.config.height/3.5;
-                    break;
-                case 8:
-                    var x = (this.game.config.width/2);
-                    var y =  this.game.config.height/3.5;
-                    break;
-                case 9: 
-                    var x = (this.game.config.width-550);
-                    var y =  this.game.config.height/3.5;
-                    break;    
-            }
+            //console.log(gridFilled)
+            //console.log(check_enemy)
+            if(!gridFilled){
+                //console.log(this.enemySpawnTime)
+                var enemyTile = Math.floor(Math.random()*9) + 1;
+                //Choose a tile that doesn't have an enemy on it 
+                while(check_enemy[enemyTile-1]) {
+                    enemyTile = Math.floor(Math.random()*9) + 1;
+                }
+                switch(enemyTile) {
+                    case 1:
+                        var x = (this.game.config.width/3)-45;
+                        var y =  this.game.config.height-275;
+                        break;
+                    case 2:
+                        var x = (this.game.config.width/2);
+                        var y =  this.game.config.height-275;
+                        break;
+                    case 3:
+                        var x = (this.game.config.width-550);
+                        var y =  this.game.config.height-275;
+                        break;
+                    case 4:
+                        var x = (this.game.config.width/3)-45;
+                        var y =  this.game.config.height/2;
+                        break;
+                    case 5:
+                        var x = (this.game.config.width/2);
+                        var y =  this.game.config.height/2;
+                        break;
+                    case 6:
+                        var x = (this.game.config.width-550);
+                        var y =  this.game.config.height/2;
+                        break;
+                    case 7:
+                        var x = (this.game.config.width/3)-45;
+                        var y =  this.game.config.height/3.5;
+                        break;
+                    case 8:
+                        var x = (this.game.config.width/2);
+                        var y =  this.game.config.height/3.5;
+                        break;
+                    case 9: 
+                        var x = (this.game.config.width-550);
+                        var y =  this.game.config.height/3.5;
+                        break;    
+                }
 
-            var spawnAnim = this.add.sprite(x,y,'spawn1');
-            spawnAnim.play('spawnIn');
-            this.spawnSound.play({
-                mute: false,
-                volume: 0.7,
-                rate: 1,
-                loop: false,
-                delay: 0
-            });
-
-            spawnAnim.on('animationcomplete', function() {
-                spawnAnim.destroy();
-                var enemy = new Enemy(this, enemyTile, this.game.config.width, this.game.config.height, "enemy1",1);
-                enemies[enemyTile-1] = enemy;
-
-                enemyElapsed[enemyTile-1] = this.time.addEvent({
-                    delay: 0, 
-                    loop: true
+                var spawnAnim = this.add.sprite(x,y,'spawn1');
+                spawnAnim.play('spawnIn');
+                this.spawnSound.play({
+                    mute: false,
+                    volume: 0.7,
+                    rate: 1,
+                    loop: false,
+                    delay: 0
                 });
 
-                check_enemy[enemyTile-1] = true;
-            },  this);
-            
-            //enemyElapsed[enemyTile-1] = Math.floor(performance.now());  
-            //console.log(enemyElapsed[enemyTile-1].getElapsed());
-        } else {
-            return;
+                spawnAnim.on('animationcomplete', function() {
+                    spawnAnim.destroy();
+                    var enemy = new Enemy(this, enemyTile, this.game.config.width, this.game.config.height, "enemy1",1);
+                    enemies[enemyTile-1] = enemy;
+
+                    enemyElapsed[enemyTile-1] = this.time.addEvent({
+                        delay: 0, 
+                        loop: true
+                    });
+
+                    check_enemy[enemyTile-1] = true;
+                },  this);
+                i++;
+                //enemyElapsed[enemyTile-1] = Math.floor(performance.now());  
+                //console.log(enemyElapsed[enemyTile-1].getElapsed());
+            } 
         }
-        
     }
 
     enemyDown(tilePos) {
