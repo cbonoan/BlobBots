@@ -44,6 +44,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
         scene.add.existing(this).setScale(scale);
 
         //Make sure sprite object key has "_idle" at the end of it
+        //This is if enemy has animation for it 
         //this.play(enemyType+'_idle');
 
 
