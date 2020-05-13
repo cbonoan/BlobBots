@@ -93,7 +93,8 @@ class Lvl1 extends Phaser.Scene {
         this.scoreText.text = "SCORE: " + score;
 
         if(health <= 0) {
-            this 
+            this.gameOverCam.fade(1000);
+            health = 0; 
         }
 
         for(var i = 0; i < keyObjs.length; i++) {

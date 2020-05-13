@@ -125,11 +125,10 @@ class Tutorial extends Phaser.Scene{
             this
         )
         this.skipBtn.setInteractive().on('pointerdown', function() {
-            this.cameras.main.fade(1000)},
-            this
-        );
+            this.cameras.main.fade(1000)
+        },  this);
         
-        this.camera.main.on('camerafadeoutcomplete',  function() {
+        this.cameras.main.on('camerafadeoutcomplete',  function() {
             this.scene.start('Level1', {level: 1});
             this.scene.stop();
         }, this);
