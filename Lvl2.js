@@ -1,4 +1,3 @@
-enemySpawnTime = 3500; 
 
 class Lvl2 extends Phaser.Scene {
     constructor() {
@@ -32,7 +31,8 @@ class Lvl2 extends Phaser.Scene {
 
         this.add.image(0, 0,'level2').setOrigin(0).setDisplaySize(this.config.width,this.config.height);
         
-        this.scoreText =  this.add.bitmapText(10,65,'font', 'SCORE: ' + score, 35);
+        healthBar = this.add.image(255, 30, 'hb'+this.health)
+        this.scoreText =  this.add.bitmapText(10,70,'font', 'SCORE: ' + this.score, 35);
 
         this.timer = this.time.addEvent({ 
             delay: 0,
@@ -43,10 +43,12 @@ class Lvl2 extends Phaser.Scene {
             loop: true
         });
 
+        this.enemySpawnTime = 3500; 
+
     }
 
     update() {
-        this.healthText.text = "HEALTH: " + health;
+        healthBar.setTexture('hb'+health);
         this.scoreText.text = "SCORE: " + score;
     }
 }
