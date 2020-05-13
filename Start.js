@@ -18,7 +18,7 @@ class Start extends Phaser.Scene {
         }
 
         //Sounds and music 
-        this.load.audio('music', 'assets/soundEffects/sciFiMusic.mp3');
+        this.load.audio('music', 'assets/soundEffects/startMusic.mp3');
         this.load.audio('beam', 'assets/soundEffects/beam.mp3');
         this.load.audio('spawnSoundEffect', 'assets/soundEffects/spawn.mp3');
         this.load.audio('robotSoundEffect', 'assets/soundEffects/robotSpeaking.mp3');

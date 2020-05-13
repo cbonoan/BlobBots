@@ -36,7 +36,7 @@ class Tutorial extends Phaser.Scene{
     create() {    
         this.config = this.game.config;
 
-        if (this.sound.context.state === 'suspended') {
+        if(this.sound.context.state === 'suspended') {
             this.sound.context.resume();
         }
 
@@ -132,6 +132,8 @@ class Tutorial extends Phaser.Scene{
             this.scene.start('Level1', {level: 1});
             this.scene.stop();
         }, this);
+
+        
     }
 
 
