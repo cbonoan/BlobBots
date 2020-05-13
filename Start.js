@@ -11,6 +11,12 @@ class Start extends Phaser.Scene {
         this.load.image('level3', 'assets/leveldesign/lvl3Base.png');
         this.load.image('level4', 'assets/leveldesign/lvl4Base.png');
 
+        //Heath Bar 
+        for(var i=0; i<6; i++) {
+            var filePath = 'assets/png/hBar'+i+'.png'
+            this.load.image('hb'+ i, filePath);
+        }
+
         //Sounds and music 
         this.load.audio('music', 'assets/soundEffects/sciFiMusic.mp3');
         this.load.audio('beam', 'assets/soundEffects/beam.mp3');

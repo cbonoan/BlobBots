@@ -32,8 +32,7 @@ class Lvl2 extends Phaser.Scene {
 
         this.add.image(0, 0,'level2').setOrigin(0).setDisplaySize(this.config.width,this.config.height);
         
-        this.healthText = this.add.bitmapText(10,25,'font', 'HEALTH: ' + health, 32);
-        this.scoreText =  this.add.bitmapText(10,65,'font', 'SCORE: ' + score, 32);
+        this.scoreText =  this.add.bitmapText(10,65,'font', 'SCORE: ' + score, 35);
 
         this.timer = this.time.addEvent({ 
             delay: 0,
@@ -48,6 +47,6 @@ class Lvl2 extends Phaser.Scene {
 
     update() {
         this.healthText.text = "HEALTH: " + health;
-        this.scoreText.text = "SCORE: " + score
+        this.scoreText.text = "SCORE: " + score;
     }
 }

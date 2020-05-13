@@ -41,7 +41,7 @@ class Tutorial extends Phaser.Scene{
         }
 
         music.setVolume(0.1);
-        this.cameras.main.fadeIn(1000);            
+        this.cameras.main.fadeIn(1000);          
         //this.scene.start("Level1")
         this.timer = this.time.addEvent({
             loop: true
@@ -129,7 +129,7 @@ class Tutorial extends Phaser.Scene{
             this
         );
         
-        this.cameras.main.on('camerafadeoutcomplete',  function() {
+        this.camera.main.on('camerafadeoutcomplete',  function() {
             this.scene.start('Level1', {level: 1});
             this.scene.stop();
         }, this);

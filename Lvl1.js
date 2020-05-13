@@ -1,3 +1,4 @@
+var healthBar
 var health = 5;
 var score = 0; 
 //Will keep track of how long an enemy has stayed on screen in ms
@@ -42,6 +43,9 @@ class Lvl1 extends Phaser.Scene {
             delay: 0
         });
 
+        //To add fade out effect for game over 
+        this.gameOverCam = this.cameras.add();
+
         //To make sure audio keeps playing
         if (this.sound.context.state === 'suspended') {
             this.sound.context.resume();
@@ -55,8 +59,8 @@ class Lvl1 extends Phaser.Scene {
         this.add.image(0, 0,'level1').setOrigin(0).setDisplaySize(this.config.width,this.config.height);
     
         //Health and score 
-        this.healthText = this.add.bitmapText(10,25,'font', 'HEALTH: ' + health, 32);
-        this.scoreText =  this.add.bitmapText(10,65,'font', 'SCORE: ' + score, 32);
+        healthBar = this.add.image(255, 30, 'hb5')
+        this.scoreText =  this.add.bitmapText(10,70,'font', 'SCORE: ' + score, 35);
 
         for(var i=0; i<check_enemy.length;i++) {
             check_enemy[i] = false; 
@@ -85,11 +89,11 @@ class Lvl1 extends Phaser.Scene {
     }
 
     update() {
-        this.healthText.text = "HEALTH: " + health;
-        this.scoreText.text = "SCORE: " + score
+        healthBar.setTexture('hb'+health);
+        this.scoreText.text = "SCORE: " + score;
 
-        if(health < 0) {
-            health = 0; 
+        if(health <= 0) {
+            this 
         }
 
         for(var i = 0; i < keyObjs.length; i++) {
@@ -109,12 +113,6 @@ class Lvl1 extends Phaser.Scene {
             } 
         }
 
-        for(var i=0; i<enemies.length; i++) {
-            if(enemies[i] == null) {
-
-            }
-        }
-
         if(this.spawnTime.getElapsed() > this.enemySpawnTime){
             this.spawnEnemy();
             this.spawnTime.reset({
@@ -130,7 +128,6 @@ class Lvl1 extends Phaser.Scene {
                 delay: 0,
                 loop: true
             });
-            //console.log(this.timer.getElapsed())
         }
 
         //If an enemy is on screen for more than 3.5 secs, then take health and score away 
