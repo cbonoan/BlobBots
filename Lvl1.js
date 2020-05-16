@@ -82,7 +82,7 @@ class Lvl1 extends Phaser.Scene {
         }, this);
 
         this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level2', {level: 2, health: health, score: score});
+            this.scene.start('Tut2', {health: health, score: score});
             this.scene.stop();
         }, this);
         
@@ -101,7 +101,7 @@ class Lvl1 extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(keyObjs[i])) {
                 if(check_enemy[i]) {
                     this.beamSound.play();
-                    enemies[i].hp -= 10; 
+                    enemies[i].hp -= playerDamage; 
                     if(enemies[i].hp <= 0) {
                         enemies[i].setX(this.game.config.width+1000).setY(this.game.config.height+1000);
                         enemies[i].destroyEnemy();
@@ -220,7 +220,7 @@ class Lvl1 extends Phaser.Scene {
                 var enemy = new Enemy(this, enemyTile, this.game.config.width, this.game.config.height, "enemy1",1);
                 //Adding health for enemies
                 //For lvl 1, all enemies will only take one hit to kill, but good to note for future ref
-                enemy.hp = 10; 
+                enemy.hp = 1; 
                 enemies[enemyTile-1] = enemy;
 
                 enemyElapsed[enemyTile-1] = this.time.addEvent({

@@ -118,12 +118,12 @@ class Tutorial extends Phaser.Scene{
         this.skipBtn.on('pointerover', function() {
             this.skipBtn.play('skipBtn')}, 
             this
-        )
+        );
         this.skipBtn.on('pointerout', function() {
             this.skipBtn.anims.pause()
             this.skipBtn.setTexture('skipButton')}, 
             this
-        )
+        );
         this.skipBtn.setInteractive().on('pointerdown', function() {
             this.cameras.main.fade(1000)
         },  this);

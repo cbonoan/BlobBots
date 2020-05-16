@@ -4,7 +4,7 @@ window.onload = function() {
         type: Phaser.AUTO,
         width: screen.width,
         height: screen.height-115,
-        scene: [Start, Tutorial, PromptFullscreen, Sim, Lvl1, Lvl2],
+        scene: [Start, Tutorial, PromptFullscreen, Sim, Lvl1, Tutorial2, Lvl2],
         physics: {
             default: 'arcade',
             arcade: {

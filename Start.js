@@ -1,4 +1,5 @@
 var music;
+var playerDamage = 1; 
 class Start extends Phaser.Scene {
     constructor() {
         super('mainMenu');
@@ -69,11 +70,15 @@ class Start extends Phaser.Scene {
         this.load.bitmapFont('font', 'assets/font/font_0.png', 'assets/font/font.fnt');
 
         // Preload enemies in this scene to be used in later scenes
-        this.load.image('enemy1_idle', 'assets/enemy1.png');
+        for(var i=1; i<5; i++) {
+            var filePath = 'assets/png/Blob'+i+'.png';
+            this.load.image('enemy'+i+'_idle', filePath);
+        }
         //Spawning pics for animation 
         this.load.image('spawn1', 'assets/effects/spwn1.png')
         this.load.image('spawn2', 'assets/effects/spwn2.png')
 
+        //Elimination animation 
         this.load.image('impact1', 'assets/effects/impact1.png');
         this.load.image('impact2', 'assets/effects/impact2.png');
         this.load.image('impact3', 'assets/effects/impact3.png');
@@ -81,7 +86,7 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        //this.scene.start('Level1')
+        this.scene.start('Tut2')
         this.config = this.game.config;
         music = this.sound.add('music');
 
