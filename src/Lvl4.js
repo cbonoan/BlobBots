@@ -1,4 +1,4 @@
-var healthBar;
+var healthBar
 var health = 5;
 var score = 0; 
 //Will keep track of how long an enemy has stayed on screen in ms
@@ -11,9 +11,9 @@ for(var i=0; i<9; i++) {
 }
 var check_enemy = [false, false, false, false, false, false, false, false, false];
 
-class Lvl3 extends Phaser.Scene {
+class Lvl4 extends Phaser.Scene {
     constructor() {
-        super('Level3');
+        super('Level4');
     }
 
     //This will help keep track of data i.e. level user is on, score, and health 
@@ -33,8 +33,8 @@ class Lvl3 extends Phaser.Scene {
 
         music.stop();
 
-        var lvl3Music = this.sound.add('lvl3Music');
-        lvl3Music.play({
+        var lvl4Music = this.sound.add('lvl4Music');
+        lvl4Music.play({
             mute: false,
             volume: 0.2,
             rate: 1,
@@ -57,7 +57,7 @@ class Lvl3 extends Phaser.Scene {
         }
 
         //Background 
-        this.add.image(0, 0,'level3').setOrigin(0).setDisplaySize(this.config.width,this.config.height);
+        this.add.image(0, 0,'level4').setOrigin(0).setDisplaySize(this.config.width,this.config.height);
     
         //Health and score 
         healthBar = this.add.image(255, 30, 'hb5')
@@ -77,9 +77,9 @@ class Lvl3 extends Phaser.Scene {
         });
         this.enemySpawnTime = 1250;
 
-        lvl3Music.on('complete', function() {
+        lvl4Music.on('complete', function() {
             this.cameras.main.fade(1500);
-            this.enemySpawnTime = 10000;
+            this.enemySpawnTime = 1250;
         }, this);
 
         
@@ -87,6 +87,8 @@ class Lvl3 extends Phaser.Scene {
     }
 
     update() {
+		
+		
         healthBar.setTexture('hb'+health);
         this.scoreText.text = "SCORE: " + score;
 
@@ -94,7 +96,8 @@ class Lvl3 extends Phaser.Scene {
             this.gameOverCam.fade(1000);
             health = 0; 
         }
-		
+		if(health > 0)
+		{
         for(var i = 0; i < keyObjs.length; i++) {
             if(Phaser.Input.Keyboard.JustDown(keyObjs[i])) {
                 if(check_enemy[i]) {
@@ -116,7 +119,7 @@ class Lvl3 extends Phaser.Scene {
         }
 
         if(this.spawnTime.getElapsed() > this.enemySpawnTime){
-            var spawnAmt = Math.floor(Math.random()*2)+1;
+            var spawnAmt = Math.floor(Math.random()*2)+1
             this.spawnEnemy(spawnAmt);
             this.spawnTime.reset({
                 delay: 0,
@@ -147,7 +150,7 @@ class Lvl3 extends Phaser.Scene {
             }
         }
 	}
-
+    }    
 
     spawnEnemy(spawnAmt) {
         //To make sure multiple enemies don't spawn in the same grid space
@@ -295,7 +298,7 @@ class Lvl3 extends Phaser.Scene {
 			//extra enemy spawn in
             //Have to make a separate spawn animation otherwise it will bug
             if(spawnAmt > 1){
-				var enemyType2 = Math.floor((Math.random() * 3) + 1);
+				var enemyType2 = Math.floor((Math.random() * 4) + 1);
                 var spawnAnim2 = this.add.sprite(x2,y2,'spawn1');
                 spawnAnim2.play('spawnIn');
                 this.spawnSound.play({
@@ -309,7 +312,7 @@ class Lvl3 extends Phaser.Scene {
                 spawnAnim2.on('animationcomplete', function() {
                     spawnAnim2.destroy();
                     //pick a random enemy
-                    var a = Math.floor((Math.random() * 3) + 1);
+                    var a = Math.floor((Math.random() * 4) + 1);
                     
                     var enemy = new Enemy(this, enemyTile2, this.game.config.width, this.game.config.height, "enemy" + enemyType2,1);
                     //Adding health for enemies

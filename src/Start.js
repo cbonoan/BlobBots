@@ -25,6 +25,8 @@ class Start extends Phaser.Scene {
         this.load.audio('robotSoundEffect', '../assets/soundEffects/robotSpeaking.mp3');
         this.load.audio('lvl1Music', '../assets/soundEffects/lvl1Music.mp3')
         this.load.audio('lvl2Music', '../assets/soundEffects/lvl2Music.mp3')
+        this.load.audio('lvl3Music', './../assets/soundEffects/lvl3Music.mp3')
+        this.load.audio('lvl4Music', '../assets/soundEffects/lvl4Music.mp3')
 
         this.load.spritesheet("startButton", '../assets/png/startBtn.png', {
             frameWidth: 64,
@@ -86,7 +88,7 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        //this.scene.start('Level2')
+        //this.scene.start('Level4')
         this.config = this.game.config;
         music = this.sound.add('music');
 
