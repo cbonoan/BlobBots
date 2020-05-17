@@ -86,7 +86,7 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        //this.scene.start('Tut2')
+        this.scene.start('Tut2')
         this.config = this.game.config;
         music = this.sound.add('music');
 
