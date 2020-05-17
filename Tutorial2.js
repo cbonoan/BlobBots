@@ -20,6 +20,7 @@ class Tutorial2 extends Phaser.Scene {
         this.config = this.game.config;
         this.i = 0;
 
+        music.resume(); 
         this.cameras.main.fadeIn(1000);          
 
         this.background = this.add.tileSprite(0,0,this.config.width,this.config.height,'bg').setOrigin(0,0);
@@ -84,18 +85,17 @@ class Tutorial2 extends Phaser.Scene {
                 this.i++;
         }
 
-        if(this.i >= 4 && this.i < 6) {
-            this.enemyImage.setVisible(true);
-            if(this.i == 4) {
-                this.enemyImage.setTexture('enemy3_idle');
-            } else if(this.i == 5) {
-                this.enemyImage.setTexture('enemy4_idle');
+        if(this.i < text2.length) {
+            if(text2[this.i-1].includes("two")) {
+                this.enemyImage.setVisible(true);
+            } else if(text2[this.i-1].includes("three")) {
+                this.enemyImage.setTexture("enemy3_idle");
+            } else if(text2[this.i-1].includes("four")) {
+                this.enemyImage.setTexture("enemy4_idle");
             }
-        } else {
-            this.enemyImage.setVisible(false);
         }
 
-        if(this.i > text.length){
+        if(this.i > text2.length){
             this.cameras.main.fade(1500);
         }
     

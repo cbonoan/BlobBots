@@ -30,7 +30,7 @@ class Lvl1 extends Phaser.Scene {
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
-        music.stop();
+        music.pause();
 
         var lvl1Music = this.sound.add('lvl1Music');
         lvl1Music.play({
@@ -217,6 +217,7 @@ class Lvl1 extends Phaser.Scene {
 
             spawnAnim.on('animationcomplete', function() {
                 spawnAnim.destroy();
+                //new Enemy(scene, enemyTile, x pos of sprite, y pos of sprite, enemy texture, scale)
                 var enemy = new Enemy(this, enemyTile, this.game.config.width, this.game.config.height, "enemy1",1);
                 //Adding health for enemies
                 //For lvl 1, all enemies will only take one hit to kill, but good to note for future ref

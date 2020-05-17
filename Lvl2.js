@@ -18,6 +18,8 @@ class Lvl2 extends Phaser.Scene {
 
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
+
+        music.stop();
         var lvl2Music = this.sound.add('lvl2Music');
         lvl2Music.play({
             mute: false,
