@@ -1,11 +1,19 @@
 var music;
 var playerDamage = 1; 
+var level; 
 class Start extends Phaser.Scene {
     constructor() {
         super('mainMenu');
     }
 
     preload() {
+        //Title 
+        this.load.image('title', '../assets/png/title1.png');
+
+        //Game Over 
+        this.load.image('gameOver1', '../assets/png/gameover1.png');
+        this.load.image('gameOver2', '../assets/png/gameover2.png');
+
         //Level designs 
         this.load.image('level1', '../assets/leveldesign/lvl1Base.png');
         this.load.image('level2', '../assets/leveldesign/lvl2Base.png');
@@ -27,6 +35,7 @@ class Start extends Phaser.Scene {
         this.load.audio('lvl2Music', '../assets/soundEffects/lvl2Music.mp3')
         this.load.audio('lvl3Music', './../assets/soundEffects/lvl3Music.mp3')
         this.load.audio('lvl4Music', '../assets/soundEffects/lvl4Music.mp3')
+        this.load.audio('gameOverMusic', '../assets/soundEffects/gameOverMusic.mp3')
 
         this.load.spritesheet("startButton", '../assets/png/startBtn.png', {
             frameWidth: 64,
@@ -40,7 +49,26 @@ class Start extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 32
         });
-
+        this.load.spritesheet("menuButton", '../assets/png/menuBtn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
+        this.load.spritesheet("lvl1Button", '../assets/png/lvl1Btn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
+        this.load.spritesheet("lvl2Button", '../assets/png/lvl2Btn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
+        this.load.spritesheet("lvl3Button", '../assets/png/lvl3Btn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
+        this.load.spritesheet("lvl4Button", '../assets/png/lvl4Btn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
 
         this.load.image('bg', '../assets/leveldesign/bg.png');
         this.load.image('bg2', '../assets/leveldesign/blackBackground.png');
@@ -88,8 +116,12 @@ class Start extends Phaser.Scene {
     }
     
     create() {
-        //this.scene.start('Level1')
         this.config = this.game.config;
+        
+        //Cheat codes for level warp 
+        //Konami code followed by the level number will warp 
+        this.input.keyboard.createCombo([ 38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13], { resetOnMatch: true });
+        
         music = this.sound.add('music');
 
         this.musicConfig = {
@@ -130,6 +162,59 @@ class Start extends Phaser.Scene {
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'menuBtn',
+            frames: this.anims.generateFrameNumbers('menuButton'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'restartBtn',
+            frames: this.anims.generateFrameNumbers('restartButton'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lvl1Btn',
+            frames: this.anims.generateFrameNumbers('lvl1Button'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lvl2Btn',
+            frames: this.anims.generateFrameNumbers('lvl2Button'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lvl3Btn',
+            frames: this.anims.generateFrameNumbers('lvl3Button'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'lvl4Btn',
+            frames: this.anims.generateFrameNumbers('lvl4Button'),
+            frameRate: 2,
+            repeat: -1
+        });
+
+
+        this.anims.create({
+            key: 'gameOverScreen',
+            frames: [
+                {key: 'gameOver1'},
+                {key: 'gameOver2'} 
+            ],
+            frameRate: 2,
+            repeat: -1
+        });
+
         //Start Button
         this.startBtn = this.add.sprite(this.game.config.width/2, this.game.config.height/2.5, 'startButton').setScale(3);
         this.startBtn.on('pointerover', function() {
@@ -147,7 +232,7 @@ class Start extends Phaser.Scene {
         );
 
         //Settings Button
-        this.settingsBtn = this.add.sprite(this.game.config.width/2, this.game.config.height/2, 'settingsButton').setScale(2.5).setInteractive();
+        /*this.settingsBtn = this.add.sprite(this.game.config.width/2, this.game.config.height/2, 'settingsButton').setScale(2.5).setInteractive();
         this.settingsBtn.on('pointerover', function() {
             this.settingsBtn.play('settingsBtn')}, 
             this
@@ -156,11 +241,9 @@ class Start extends Phaser.Scene {
             this.settingsBtn.anims.pause()
             this.settingsBtn.setTexture('settingsButton')}, 
             this
-        )
-        /*this.settingsBtn.setInteractive().on('pointerdown', function() {
-            this.scene.start('bootGame')},
-            this
-        );*/
+        )*/
+        
+        this.title = this.add.image(this.game.config.width/2+20,this.game.config.height/4,'title');
 
         //Spawning animation
         this.anims.create({
@@ -185,6 +268,12 @@ class Start extends Phaser.Scene {
             frameRate: 15,
             repeat: 0
         });
+
+        this.input.keyboard.on('keycombomatch', function (event) {
+            console.log('Konami Code entered!');
+            this.scene.start('LevelWarp');
+            this.scene.stop();
+        }, this);
 
         this.cameras.main.on('camerafadeoutcomplete',  function() {
             this.scene.start('bootGame')},

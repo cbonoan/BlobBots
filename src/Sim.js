@@ -1,5 +1,8 @@
 var check_enemy = [];
-
+var keyObjs = [];
+for(var i=0; i<9; i++) {
+    keyObjs[i] = null;
+}
 class Sim extends Phaser.Scene{
     constructor(){
         super('Training');
@@ -10,8 +13,10 @@ class Sim extends Phaser.Scene{
         this.beamSound = this.sound.add('beam');
         //Putting keyObjs into an array for easier use 
         //Key values for numpad 1-9 is 97-105
-        for(var keyValue = 97; keyValue < 106; keyValue++) {
-            keyObjs.push(this.input.keyboard.addKey(keyValue));
+        this.key = 0
+        for (var keyValue = 97; keyValue < 106; keyValue++) {
+            keyObjs[this.key] = this.input.keyboard.addKey(keyValue);
+            this.key++;
         }
 
         this.background = this.add.tileSprite(0,0,this.config.width,this.config.height,'bg');

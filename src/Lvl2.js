@@ -15,16 +15,14 @@ class Lvl2 extends Phaser.Scene {
     }
 
     init(data) {
+        this.level = data.level
         this.health = data.health;
         this.score = data.score;
     }
 
-    preload() {
-
-    }
-
     create() {
         this.config = this.game.config;
+
         this.key = 0
         for (var keyValue = 97; keyValue < 106; keyValue++) {
             keyObjs[this.key] = this.input.keyboard.addKey(keyValue);
@@ -35,6 +33,7 @@ class Lvl2 extends Phaser.Scene {
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
         this.cameras.main.fadeIn(500);
+        this.gameOverCam = this.cameras.add();
 
         music.stop();
         this.lvl2Music = this.sound.add('lvl2Music');
@@ -50,8 +49,8 @@ class Lvl2 extends Phaser.Scene {
 
         this.add.image(0, 0, 'level2').setOrigin(0).setDisplaySize(this.config.width, this.config.height);
 
-        healthBar = this.add.image(255, 30, 'hb' + health)
-        this.scoreText = this.add.bitmapText(10, 70, 'font', 'SCORE: ' + score, 35);
+        healthBar = this.add.image(255, 30, 'hb' + this.health)
+        this.scoreText = this.add.bitmapText(10, 70, 'font', 'SCORE: ' + this.score, 35);
 
         this.timer = this.time.addEvent({
             delay: 0,
@@ -70,19 +69,26 @@ class Lvl2 extends Phaser.Scene {
         }, this);
 
         this.cameras.main.on('camerafadeoutcomplete', function () {
-            this.scene.start('Level3', { level: 3, health: health, score: score });
+            this.scene.start('Level3', { level: 3, health: this.health, score: this.score });
             this.scene.stop();
         }, this);
+
+        this.gameOverCam.on('camerafadeoutcomplete', function() {
+            this.scene.start('GameOver', {level: this.level, health: 5, score: this.score})
+            this.lvl2Music.stop();
+            this.scene.stop();
+        }, this)
 
     }
 
     update() {
 
-        healthBar.setTexture('hb' + health);
-        this.scoreText.text = "SCORE: " + score;
-        if (health <= 0) {
-            //this.gameOverCam.fade(1000);
-            health = 0;
+        healthBar.setTexture('hb' + this.health);
+        this.scoreText.text = "SCORE: " + this.score;
+            this.health = 0;
+        if (this.health <= 0) {
+            this.health = 0;
+            this.gameOverCam.fade(1000);
         }
       
         for (var i = 0; i < keyObjs.length; i++) {
@@ -101,7 +107,7 @@ class Lvl2 extends Phaser.Scene {
                         this.enemyDown(i + 1)
                     }
                 } else if (!check_enemy[i]) {
-                    health--;
+                    this.health--;
                 }
             }
         }
@@ -129,8 +135,8 @@ class Lvl2 extends Phaser.Scene {
             if (enemyElapsed[i] != null) {
                 if (enemyElapsed[i].getElapsed() > 3500) {
                     enemies[i].destroyEnemy();
-                    score -= 5;
-                    health--;
+                    this.score -= 5;
+                    this.health--;
                     enemyElapsed[i] = null;
                     enemies[i] = null;
                     check_enemy[i] = false;
@@ -346,7 +352,7 @@ class Lvl2 extends Phaser.Scene {
         impact.on('animationcomplete', function () {
             impact.destroy();
         }, this);
-        score += 10;
+        this.score += 10;
 
     }
 }

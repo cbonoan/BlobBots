@@ -129,7 +129,7 @@ class Tutorial extends Phaser.Scene{
         },  this);
         
         this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level1', {level: 1});
+            this.scene.start('Level1', {level: 1, health: 5, score: 0});
             this.scene.stop();
         }, this);
 

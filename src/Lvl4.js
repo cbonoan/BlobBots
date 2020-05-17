@@ -17,6 +17,7 @@ class Lvl4 extends Phaser.Scene {
 
     //This will help keep track of data i.e. level user is on, score, and health 
     init(data) {
+        this.level = data.level
         this.health = data.health;
 		this.score = data.score;
     }
@@ -31,7 +32,6 @@ class Lvl4 extends Phaser.Scene {
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
         music.stop();
-
         var lvl4Music = this.sound.add('lvl4Music');
         lvl4Music.play({
             mute: false,
@@ -62,7 +62,7 @@ class Lvl4 extends Phaser.Scene {
     
         //Health and score 
         healthBar = this.add.image(255, 30, 'hb5')
-        this.scoreText =  this.add.bitmapText(10,70,'font', 'SCORE: ' + score, 35);
+        this.scoreText =  this.add.bitmapText(10,70,'font', 'SCORE: ' + this.score, 35);
 
         for(var i=0; i<check_enemy.length;i++) {
             check_enemy[i] = false; 
@@ -83,8 +83,14 @@ class Lvl4 extends Phaser.Scene {
             this.enemySpawnTime = 1250;
         }, this);
 
+        this.gameOverCam.on('camerafadeoutcomplete', function() {
+            this.scene.start('GameOver', {level: this.level, health: 5, score: this.score})
+            this.lvl2Music.stop();
+            this.scene.stop();
+        }, this)
+
         /*this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level3', {level: 3, health: health, score: score});
+            this.scene.start('Level3', {level: 3, health: this.health, score: this.score});
             this.scene.stop();
         }, this);*/
         
@@ -94,15 +100,14 @@ class Lvl4 extends Phaser.Scene {
     update() {
 		
 		
-        healthBar.setTexture('hb'+health);
-        this.scoreText.text = "SCORE: " + score;
+        healthBar.setTexture('hb'+this.health);
+        this.scoreText.text = "SCORE: " + this.score;
 
-        if(health <= 0) {
+        if(this.health <= 0) {
             this.gameOverCam.fade(1000);
-            health = 0; 
+            this.health = 0; 
         }
-		if(health > 0)
-		{
+		
         for(var i = 0; i < keyObjs.length; i++) {
             if(Phaser.Input.Keyboard.JustDown(keyObjs[i])) {
                 if(check_enemy[i]) {
@@ -118,7 +123,7 @@ class Lvl4 extends Phaser.Scene {
                         this.enemyDown(i+1)
                     }
                 } else if(!check_enemy[i]) {
-                    health--;
+                    this.health--;
                 }
             } 
         }
@@ -146,8 +151,8 @@ class Lvl4 extends Phaser.Scene {
             if(enemyElapsed[i] != null) {
                 if(enemyElapsed[i].getElapsed() > 3500) {
                     enemies[i].destroyEnemy();
-                    score -= 5;
-                    health --; 
+                    this.score -= 5;
+                    this.health --; 
                     enemyElapsed[i] = null; 
                     enemies[i] = null;
                     check_enemy[i] = false;
@@ -155,7 +160,7 @@ class Lvl4 extends Phaser.Scene {
             }
         }
 	}
-    }    
+
 
     spawnEnemy(spawnAmt) {
         //To make sure multiple enemies don't spawn in the same grid space
@@ -381,7 +386,7 @@ class Lvl4 extends Phaser.Scene {
         impact.on('animationcomplete', function() {
             impact.destroy();
         }, this);
-        score += 10;
+        this.score += 10;
 
     }
 
