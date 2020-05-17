@@ -1,4 +1,4 @@
-var text2 = ["Thank you for saving our universe!",
+var text3 = ["Thank you for saving our universe!",
 "Those things don't look like they'll be back ever again.",
 "The whole universe is grateful to you, rookie."];
 
@@ -74,13 +74,13 @@ class Win extends Phaser.Scene {
 
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter) || this.i==0){
             console.log(this.i)
-            if(this.i < text2.length)
-                this.updateText(text2[this.i]);
+            if(this.i < text3.length)
+                this.updateText(text3[this.i]);
             else 
                 this.i++;
         }
 
-        if(this.i > text2.length){
+        if(this.i > text3.length){
             this.cameras.main.fade(1500);
         }
     

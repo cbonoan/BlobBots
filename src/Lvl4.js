@@ -89,17 +89,15 @@ class Lvl4 extends Phaser.Scene {
             this.scene.stop();
         }, this)
 
-        /*this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level3', {level: 3, health: this.health, score: this.score});
+        this.cameras.main.on('camerafadeoutcomplete',  function() {
+            this.scene.start('GameComplete', {level: 3, health: this.health, score: this.score});
             this.scene.stop();
-        }, this);*/
+        }, this);
         
         
     }
 
     update() {
-		
-		
         healthBar.setTexture('hb'+this.health);
         this.scoreText.text = "SCORE: " + this.score;
 
