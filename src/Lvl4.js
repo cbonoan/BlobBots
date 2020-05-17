@@ -1,13 +1,12 @@
 var healthBar
-var health = 5;
-var score = 0; 
-//Will keep track of how long an enemy has stayed on screen in ms
+var keyObjs = [];
 var enemyElapsed = [];
 for(var i =0; i<9; i++) {
     enemyElapsed[i] = null;
 }
 for(var i=0; i<9; i++) {
     enemies[i] = null; 
+    keyObjs[i] = null;
 }
 var check_enemy = [false, false, false, false, false, false, false, false, false];
 
@@ -52,8 +51,10 @@ class Lvl4 extends Phaser.Scene {
             this.sound.context.resume();
         }
 
+        this.key = 0 
         for(var keyValue = 97; keyValue < 106; keyValue++) {
-            keyObjs.push(this.input.keyboard.addKey(keyValue));
+            keyObjs[this.key] = this.input.keyboard.addKey(keyValue);
+            this.key++;
         }
 
         //Background 
@@ -82,6 +83,10 @@ class Lvl4 extends Phaser.Scene {
             this.enemySpawnTime = 1250;
         }, this);
 
+        /*this.cameras.main.on('camerafadeoutcomplete',  function() {
+            this.scene.start('Level3', {level: 3, health: health, score: score});
+            this.scene.stop();
+        }, this);*/
         
         
     }

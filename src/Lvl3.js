@@ -1,16 +1,15 @@
 var healthBar;
-var health = 5;
-var score = 0; 
-//Will keep track of how long an enemy has stayed on screen in ms
+var keyObjs = []
 var enemyElapsed = [];
 for(var i =0; i<9; i++) {
     enemyElapsed[i] = null;
 }
 for(var i=0; i<9; i++) {
     enemies[i] = null; 
+    keyObjs[i] = null;
 }
-var check_enemy = [false, false, false, false, false, false, false, false, false];
-
+check_enemy = [false, false, false, false, false, false, false, false, false];
+keyObjs = [];
 class Lvl3 extends Phaser.Scene {
     constructor() {
         super('Level3');
@@ -18,6 +17,7 @@ class Lvl3 extends Phaser.Scene {
 
     //This will help keep track of data i.e. level user is on, score, and health 
     init(data) {
+        this.level = data.level
         this.health = data.health;
 		this.score = data.score;
     }
@@ -52,8 +52,10 @@ class Lvl3 extends Phaser.Scene {
             this.sound.context.resume();
         }
 
+        this.key = 0 
         for(var keyValue = 97; keyValue < 106; keyValue++) {
-            keyObjs.push(this.input.keyboard.addKey(keyValue));
+            keyObjs[this.key] = this.input.keyboard.addKey(keyValue);
+            this.key++;
         }
 
         //Background 
@@ -82,6 +84,10 @@ class Lvl3 extends Phaser.Scene {
             this.enemySpawnTime = 10000;
         }, this);
 
+        this.cameras.main.on('camerafadeoutcomplete',  function() {
+            this.scene.start('Level4', {level: 4, health: health, score: score});
+            this.scene.stop();
+        }, this);
         
         
     }
@@ -89,10 +95,8 @@ class Lvl3 extends Phaser.Scene {
     update() {
         healthBar.setTexture('hb'+health);
         this.scoreText.text = "SCORE: " + score;
-
-        if(health <= 0) {
-            this.gameOverCam.fade(1000);
-            health = 0; 
+        if(score > 0) {
+            this.cameras.main.fade(1000);
         }
 		
         for(var i = 0; i < keyObjs.length; i++) {

@@ -1,6 +1,7 @@
 var healthBar
 var health = 5;
 var score = 0; 
+var keyObjs = [];
 //Will keep track of how long an enemy has stayed on screen in ms
 var enemyElapsed = [];
 for(var i =0; i<9; i++) {
@@ -32,8 +33,8 @@ class Lvl1 extends Phaser.Scene {
 
         music.pause();
 
-        var lvl1Music = this.sound.add('lvl1Music');
-        lvl1Music.play({
+        this.lvl1Music = this.sound.add('lvl1Music');
+        this.lvl1Music.play({
             mute: false,
             volume: 0.2,
             rate: 1,
@@ -51,8 +52,10 @@ class Lvl1 extends Phaser.Scene {
             this.sound.context.resume();
         }
 
-        for(var keyValue = 97; keyValue < 106; keyValue++) {
-            keyObjs.push(this.input.keyboard.addKey(keyValue));
+        this.key = 0
+        for (var keyValue = 97; keyValue < 106; keyValue++) {
+            keyObjs[this.key] = this.input.keyboard.addKey(keyValue);
+            this.key++;
         }
 
         //Background 
@@ -76,13 +79,13 @@ class Lvl1 extends Phaser.Scene {
         });
         this.enemySpawnTime = 3500;
 
-        lvl1Music.on('complete', function() {
+        this.lvl1Music.on('complete', function() {
             this.cameras.main.fade(1500);
             this.enemySpawnTime = 10000;
         }, this);
 
         this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Tut2', {health: health, score: score});
+            this.scene.start('Tut2', {level: 2, health: health, score: score});
             this.scene.stop();
         }, this);
         
@@ -91,9 +94,9 @@ class Lvl1 extends Phaser.Scene {
     update() {
         healthBar.setTexture('hb'+health);
         this.scoreText.text = "SCORE: " + score;
-
+       
         if(health <= 0) {
-            this.gameOverCam.fade(1000);
+            //this.gameOverCam.fade(1000);
             health = 0; 
         }
 
