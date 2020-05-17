@@ -32,8 +32,8 @@ class Lvl4 extends Phaser.Scene {
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
         music.stop();
-        var lvl4Music = this.sound.add('lvl4Music');
-        lvl4Music.play({
+        this.lvl4Music = this.sound.add('lvl4Music');
+        this.lvl4Music.play({
             mute: false,
             volume: 0.2,
             rate: 1,
@@ -76,16 +76,16 @@ class Lvl4 extends Phaser.Scene {
             delay: 0, 
             loop: true
         });
-        this.enemySpawnTime = 1250;
+        this.enemySpawnTime = 1150;
 
-        lvl4Music.on('complete', function() {
+        this.lvl4Music.on('complete', function() {
             this.cameras.main.fade(1500);
             this.enemySpawnTime = 1250;
         }, this);
 
         this.gameOverCam.on('camerafadeoutcomplete', function() {
             this.scene.start('GameOver', {level: this.level, health: 5, score: this.score})
-            this.lvl2Music.stop();
+            this.lvl4Music.stop();
             this.scene.stop();
         }, this)
 

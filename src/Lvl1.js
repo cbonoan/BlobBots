@@ -28,10 +28,7 @@ class Lvl1 extends Phaser.Scene {
 
     create() {
         this.config = this.game.config;
-        if(this.health == null || this.score == null) {
-            this.health = 5;
-            this.score = 5;
-        }
+      
         this.beamSound = this.sound.add('beam');
         this.spawnSound = this.sound.add('spawnSoundEffect');
 
@@ -81,7 +78,7 @@ class Lvl1 extends Phaser.Scene {
             delay: 0, 
             loop: true
         });
-        this.enemySpawnTime = 2500;
+        this.enemySpawnTime = 2000;
 
         this.lvl1Music.on('complete', function() {
             this.cameras.main.fade(1500);
@@ -104,7 +101,9 @@ class Lvl1 extends Phaser.Scene {
     update() {
         healthBar.setTexture('hb'+this.health);
         this.scoreText.text = "SCORE: " + this.score;
-       
+       if(this.score > 10) {
+           this.cameras.main.fade(1000)
+       }
         if(this.health <= 0) {
             this.health = 0; 
             this.gameOverCam.fade(1000);

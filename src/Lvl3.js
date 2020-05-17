@@ -90,7 +90,7 @@ class Lvl3 extends Phaser.Scene {
         
         this.gameOverCam.on('camerafadeoutcomplete', function() {
             this.scene.start('GameOver', {level: this.level, health: 5, score: this.score})
-            this.lvl2Music.stop();
+            this.lvl3Music.stop();
             this.scene.stop();
         }, this)
         

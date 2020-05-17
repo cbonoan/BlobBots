@@ -1,14 +1,10 @@
-var text2 = ["Great work saving the ship!",
-"Looks like they're trying to take over the whole universe! You gotta stop them!",
-"Before you go, I need to remind you that some enemies take more hits to eliminate.",
-"These guys will take two hits...",
-"They will take three...",
-"And finally, these guys take four hits.",
-"Good luck out there and save the universe!"];
+var text2 = ["Thank you for saving our universe!",
+"Those things don't look like they'll be back ever again.",
+"The whole universe is grateful to you, rookie."];
 
-class Tutorial2 extends Phaser.Scene {
+class Win extends Phaser.Scene {
     constructor() {
-        super('Tut2');
+        super('GameComplete');
     }
 
     init(data) {
@@ -39,29 +35,28 @@ class Tutorial2 extends Phaser.Scene {
             frameRate: 20,
             repeat: -1 //Infinite repeat
         });
-        thrusts = this.add.sprite(this.game.config.width/5.2, this.game.config.height-220, 'thrusters');
-        thrusts2 = this.add.sprite(this.game.config.width/3.5, this.game.config.height-220, 'thrusters');
-        thrusts.play('thrusts');
-        thrusts.angle = -90; 
-        thrusts.scale = 0.5;
-        thrusts2.play('thrusts');
-        thrusts2.angle = -90; 
-        thrusts2.scale = 0.5;
+        this.thrusts = this.add.sprite(this.game.config.width/5.2, this.game.config.height-220, 'thrusters');
+        this.thrusts2 = this.add.sprite(this.game.config.width/3.5, this.game.config.height-220, 'thrusters');
+        this.thrusts.play('thrusts');
+        this.thrusts.angle = -90; 
+        this.thrusts.scale = 0.5;
+        this.thrusts2.play('thrusts');
+        this.thrusts2.angle = -90; 
+        this.thrusts2.scale = 0.5;
        
-        trainer = this.add.sprite(this.game.config.width/4,this.game.config.height/1.95,'trainerIdle');
-        trainer.play('trainerIdle');
+        this.trainer = this.add.sprite(this.game.config.width/4,this.game.config.height/1.95,'trainerIdle');
+        this.trainer.play('trainerIdle');
         this.trainerVoice = this.sound.add('robotSoundEffect'); 
 
-        var bmText = new Phaser.GameObjects.BitmapText(this, 0,0,'font');
+        this.bmText = new Phaser.GameObjects.BitmapText(this, 0,0,'font');
 
         this.keyEnter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.speechX = this.game.config.width/3;
         this.speechY = this.game.config.height/24;
 
-        this.enemyImage = this.add.sprite(this.speechX+750,this.speechY+250, 'enemy2_idle').setScale(2).setVisible(false);
-
+        this.bmText.setVisible(false);
         this.cameras.main.on('camerafadeoutcomplete',  function() {
-            this.scene.start('Level2', {level: 2, health: this.health, score: this.score});
+            this.scene.start('EndCredits');
             this.scene.stop();
         }, this);
     
@@ -83,16 +78,6 @@ class Tutorial2 extends Phaser.Scene {
                 this.updateText(text2[this.i]);
             else 
                 this.i++;
-        }
-
-        if(this.i < text2.length) {
-            if(text2[this.i-1].includes("two")) {
-                this.enemyImage.setVisible(true);
-            } else if(text2[this.i-1].includes("three")) {
-                this.enemyImage.setTexture("enemy3_idle");
-            } else if(text2[this.i-1].includes("four")) {
-                this.enemyImage.setTexture("enemy4_idle");
-            }
         }
 
         if(this.i > text2.length){

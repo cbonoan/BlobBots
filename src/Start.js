@@ -53,6 +53,10 @@ class Start extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 32
         });
+        this.load.spritesheet("restartButton", '../assets/png/restartBtn.png', {
+            frameWidth: 64,
+            frameHeight: 32
+        });
         this.load.spritesheet("lvl1Button", '../assets/png/lvl1Btn.png', {
             frameWidth: 64,
             frameHeight: 32
@@ -243,7 +247,8 @@ class Start extends Phaser.Scene {
             this
         )*/
         
-        this.title = this.add.image(this.game.config.width/2+20,this.game.config.height/4,'title');
+        this.scale = 0; 
+        this.title = this.add.image(this.game.config.width/2+20,this.game.config.height/4,'title').setScale(this.scale);
 
         //Spawning animation
         this.anims.create({
@@ -285,5 +290,14 @@ class Start extends Phaser.Scene {
     update() {
         this.background.tilePositionX += 3;
         this.background.tilePositionY -= 3;
+
+        if(this.scale <= 1.5) {
+            this.scale += 0.01;
+        }
+        if(this.scale == 2) {
+
+        }
+        this.title.setScale(this.scale);
+
     }
 }

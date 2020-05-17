@@ -85,7 +85,6 @@ class Lvl2 extends Phaser.Scene {
 
         healthBar.setTexture('hb' + this.health);
         this.scoreText.text = "SCORE: " + this.score;
-            this.health = 0;
         if (this.health <= 0) {
             this.health = 0;
             this.gameOverCam.fade(1000);

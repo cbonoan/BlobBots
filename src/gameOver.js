@@ -37,16 +37,16 @@ class GameOver extends Phaser.Scene {
       this.restartBtn.on('pointerover', function() {
           this.restartBtn.play('restartBtn')}, 
           this
-      )
+      );
       this.restartBtn.on('pointerout', function() {
           this.restartBtn.anims.pause()
           this.restartBtn.setTexture('restartButton')}, 
           this
-      )
+      );
       this.restartBtn.setInteractive().on('pointerdown', function() {
           console.log(this.level);
           var levelName = "Level"+this.level;
-          this.scene.start(levelName, {level: this.level, health: 5, score: this.score});
+          this.scene.start(levelName, {level: this.level, health: 5, score: this.score-100});
           this.scene.stop()
         },
           this
